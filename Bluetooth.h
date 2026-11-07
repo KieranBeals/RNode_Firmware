@@ -436,7 +436,10 @@ char bt_devname[11];
           // Serial.println("Auth level success");
           bt_state = BT_STATE_CONNECTED;
           cable_state = CABLE_STATE_DISCONNECTED;
-          connection->disconnect();
+          // Keep the connection open. The host finishes the pairing procedure
+          // over this link, including key storage and service discovery. A
+          // disconnect here makes the host fail the pairing and drop the bond,
+          // so the device can never be reached again as a bonded peer.
           bt_disable_pairing();
       } else {
           // Serial.println("Auth level failure, debonding");
